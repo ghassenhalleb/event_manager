@@ -17,7 +17,10 @@ static pthread_t event_manager_thread;
 static queue_t *event_manager_queue = NULL;
 
 static event_subscribers_t events_list[EVENTS_COUNT];
-static uint32_t event_count = 0; 
+static uint32_t event_count = 0;
+
+static void *event_manager_task(void *arg);
+
 
 static int event_manager_find_event_id(uint32_t event_id)
 {
