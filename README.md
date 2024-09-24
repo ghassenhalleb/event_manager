@@ -14,17 +14,37 @@ This project implements an event management system using a linked list-based app
 
 ## Data Structures
 
-### Event Linked List
 
+#### Event Linked List
+
+
+
+### Static Memory Approach
+In the static memory approach, events and subscribers are managed using fixed-size arrays. This method is suitable for systems where the maximum number of events and subscribers is known and fixed.
+
+#### Event Node Structure:
+
+- event_id: Unique identifier for the event.
+- event_subscribers_list: Array of subscribers for the event.
+- event_subscribers_count: Number of subscribers currently registered for the event.
+
+The event manager maintains a fixed-size array (event_subscribers_list) of event nodes. Each event node contains an array of subscriber pointers, which allows for quick access and manipulation of subscribers.
+
+#### Subscriber Node Structure:
+- task: The task that subscribes to the event.
+
+Subscribers are stored in a fixed-size array within each event node, and the number of subscribers is tracked by a counter (event_subscribers_count).
+
+### Dynamic Memory Approach
 The event manager maintains a linked list of events. Each event is represented by a node (`event_subscribers_node_t`), and each node has its own linked list of subscribers (`subscriber_node_t`).
 
-### Event Node Structure
+#### Event Node Structure
 
 - `event_id`: The unique identifier for the event.
 - `subscribers_head`: The head of the linked list of subscribers.
 - `next`: Pointer to the next event in the list.
 
-### Subscriber Node Structure
+#### Subscriber Node Structure
 
 - `task`: The task that subscribes to the event.
 - `next`: Pointer to the next subscriber in the list.
