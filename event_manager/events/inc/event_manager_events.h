@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <stdint.h>
 
-#define MAX_EVENT_ARG_SIZE
+#define MAX_EVENT_ARG_SIZE  128
 
 typedef struct
 {

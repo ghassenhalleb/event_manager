@@ -119,13 +119,13 @@ int event_manager_publish_event(events_t *event)
     return queue_send(event_manager_queue, event);
 }
 
-events_t * event_manager_wait_for_events(task_context_t *task)
+events_t * event_manager_wait_for_events(task_context_t *task, uint32_t timeout)
 {
     if (task->input_queue == NULL)
     {
         return NULL;
     }
-    return (events_t *)queue_receive(task->input_queue, 1000);
+    return (events_t *)queue_receive(task->input_queue, timeout);
 }
 
 static void *event_manager_task(void *arg)
