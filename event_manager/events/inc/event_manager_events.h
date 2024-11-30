@@ -3,10 +3,12 @@
 #include <pthread.h>
 #include <stdint.h>
 
+#define MAX_EVENT_ARG_SIZE
+
 typedef struct
 {
     uint32_t id;
-    void *args;
+    uint8_t args[MAX_EVENT_ARG_SIZE];
 } events_t;
 
 #endif
