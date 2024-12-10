@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "event_manager.h"
 
 typedef struct subscriber_node
@@ -26,6 +27,7 @@ static queue_t *event_manager_queue = NULL;
 static uint32_t event_manager_queue_receive_timeout;
 static events_subscribers_t events_list = {NULL};
 
+static bool is_subsribed(uint32_t event_id, task_context_t *task);
 static event_subscribers_node_t *event_manager_find_event(uint32_t event_id);
 static event_subscribers_node_t *create_event_node(uint32_t event_id);
 static subscriber_node_t *create_subscriber_node(task_context_t *task);
@@ -43,6 +45,24 @@ static event_subscribers_node_t *event_manager_find_event(uint32_t event_id)
         current = current->next;
     }
     return NULL;
+}
+static bool is_subsribed(uint32_t event_id, task_context_t *task)
+{
+    event_subscribers_node_t *event = event_manager_find_event(event_id);
+    
+    subscriber_node_t *current = event->subscribers_head;
+
+    while (current != NULL)
+    {
+        if (current->task == task)
+        {
+            return true;
+        }
+
+        current = current->next;
+    }
+
+    return false;
 }
 
 static event_subscribers_node_t *create_event_node(uint32_t event_id)
@@ -111,6 +131,12 @@ int event_manager_subscribe_event(uint32_t event_id, task_context_t *task)
     if (event_node == NULL)
     {
         return -1;
+    }
+
+    /* Already subscribed */
+    if (is_subsribed(event_id, task) == true)
+    {
+        return -2;
     }
 
     subscriber_node_t *new_subscriber = create_subscriber_node(task);

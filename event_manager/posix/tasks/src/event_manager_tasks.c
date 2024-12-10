@@ -11,11 +11,9 @@ int event_manager_task_create(void *(*routine)(void *))
     task_context_t *arg = (task_context_t *)malloc(sizeof(task_context_t));
     if (arg == NULL)
     {
-        printf("Failed to allocate memory for task\n\r");
         return -1;
     }
 
-    printf("Creating new task \n\r");
     
     // Initialize the input queue
     arg->input_queue = queue_init(sizeof(events_t));
