@@ -11,7 +11,7 @@
 typedef struct
 {
     uint32_t id;
-    uint8_t args[MAX_EVENT_ARG_SIZE];
+    uint8_t args[MAX_EVENT_ARG_SIZE - sizeof(uint32_t)];
 } events_t;
 
 #endif
